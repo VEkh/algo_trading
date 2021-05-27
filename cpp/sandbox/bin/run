@@ -3,11 +3,14 @@
 srcs="${@:-./sandbox.cpp}"
 
 g++ \
+  -std=c++17 \
   -iquote. \
   -iquote./src \
-  -std=c++17 \
-  -o ./.output \
-  $srcs \
-  -lcrypto \
-  -lcurl && ./.output;
+  -I./deps/libwebsockets/build/include \
+  -L./deps/libwebsockets/build/lib \
+  $args \
+  -lwebsockets \
+  -o ./.output &&
+  LD_LIBRARY_PATH=./deps/libwebsockets/build/lib ./.output;
+
 \rm -f ./.output
